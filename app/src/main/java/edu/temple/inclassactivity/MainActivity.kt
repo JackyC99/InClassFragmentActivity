@@ -2,6 +2,7 @@ package edu.temple.inclassactivity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import edu.temple.inclassactivity.R.id.image_display_container
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -10,10 +11,14 @@ class MainActivity : AppCompatActivity() {
 
         // Fetch images into IntArray called imageArray
         val typedArray = resources.obtainTypedArray(R.array.image_ids)
-        val imageArray = IntArray(typedArray.length()) {typedArray.getResourceId(it, 0)}
+        val imageArray = IntArray(typedArray.length()) { typedArray.getResourceId(it, 0) }
         typedArray.recycle()
 
         // Attach an instance of ImageDisplayFragment using factory method
-
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .add(image_display_container, ImageDisplayFragment.newInstance(imageArray))
+                .commit()
+        }
     }
 }
